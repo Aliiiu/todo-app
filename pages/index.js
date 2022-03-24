@@ -7,7 +7,6 @@ import CrossIcon from '../icons/cross';
 const Home = () => {
   const [userInput, setUserInput] = useState('');
   const [todoList, setTodoList] = useState([]);
-  const [taskDone, setTaskDone] = useState(false);
 
   useEffect(() => {
     const data = localStorage.getItem("my-todo-list");
@@ -55,7 +54,6 @@ const Home = () => {
 
     setTodoList(_todoList)
   }
-  const listControl = taskDone ? 'done' : '';
   return (
     <div className='flex flex-col font-body min-h-screen'>
       <header className='bg-mobile-light sm:bg-desktop-light bg-cover bg-center min-h-[200px] sm:min-h-[300px]'>
@@ -93,7 +91,7 @@ const Home = () => {
                         checked={done}
                         onChange={() => toggleCompleted(id)}
                       />
-                      <p className={`text-3xl ${done && "line-through text-gray-300"}`}>{task} - {id}</p>
+                      <p className={`text-3xl ${done && "line-through text-gray-300"}`}>{task}</p>
                       <button
                         aria-label='Delete Todo'
                         className='focus:outline-none'
@@ -106,10 +104,6 @@ const Home = () => {
                     </div>
                   </li>
                 )
-                {/* return <li key={idx} onClick={handleTaskToggle} className={listControl}>{todo} -{idx} <button onClick={(e) => {
-                  e.preventDefault();
-                  deleteTask(todo)
-                }}>Delete</button></li> */}
               })
                 : <div className="flex bg-gray-800 text-3xl text-gray-100 py-4 px-6"><p>Enter a todo task</p></div>
               }
