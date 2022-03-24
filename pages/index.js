@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Container from '../components/container';
+import Container from '../components/Container';
 import Checkbox from '../components/Checkbox';
 import CrossIcon from  '../icons/cross'
 const Home = () => {
