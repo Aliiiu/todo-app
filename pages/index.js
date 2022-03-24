@@ -1,13 +1,11 @@
-import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import Container from '../components/container';
 import Checkbox from '../components/Checkbox';
 import CrossIcon from  '../icons/cross'
-import Form from '../components/Forms';
 const Home = () => {
   const [userInput, setUserInput] = useState('');
   const [todoList, setTodoList] = useState([]);
-  const [taskDone, setTaskDone] = useState(false);
+  // const [taskDone, setTaskDone] = useState(false);
 
   const handleUserInputChange = (event) => {
     event.preventDefault();
@@ -23,10 +21,10 @@ const Home = () => {
     setTodoList(updateTodoList)
   }
   
-  const handleTaskToggle = () => {
-    setTaskDone(!taskDone)
-  }
-  const listControl = taskDone ? 'done' : '';
+  // const handleTaskToggle = () => {
+  //   setTaskDone(!taskDone)
+  // }
+  // const listControl = taskDone ? 'done' : '';
   return (
     <div className='flex flex-col font-body min-h-screen'>
       <header className='bg-mobile-light dark:bg-mobile-dark sm:bg-desktop-light sm:dark:bg-desktop-dark bg-cover bg-center min-h-[200px] sm:min-h-[300px]'>
