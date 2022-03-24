@@ -62,13 +62,13 @@ const Home = () => {
             <h2 className="text-4xl font-bold pt-12 ">Todo List App</h2>
           </div>
           <form
-            className='w-full flex items-center bg-white rounded-md max-w-3xl mx-auto py-8 px-7 mt-7 sm:mt-12 h-10 sm:h-12 space-x-1'
+            className='w-full flex items-center bg-white rounded-md max-w-3xl mx-auto py-8 px-7 mt-7 sm: sm:mt-12 h-10 sm:h-12 space-x-1'
             onSubmit={todoHandler}
           >
             <Checkbox disabled />
             <input 
               type="text"
-              className='flex-1 border-none text-3xl text-gray-900 bg-white py-3 focus:outline-none focus:ring-0'
+              className='text-xl flex-1 border-none text-gray-900 bg-white focus:outline-none focus:ring-0'
               placeholder='Create a new todo...'
               value={userInput}
               onChange={handleUserInputChange}
@@ -91,7 +91,7 @@ const Home = () => {
                         checked={done}
                         onChange={() => toggleCompleted(id)}
                       />
-                      <p className={`text-3xl ${done && "line-through text-gray-300"}`}>{task}</p>
+                      <p className={`text-xl ${done && "line-through text-gray-300"}`}>{task}</p>
                       <button
                         aria-label='Delete Todo'
                         className='focus:outline-none'
@@ -105,7 +105,7 @@ const Home = () => {
                   </li>
                 )
               })
-                : <div className="flex bg-gray-800 text-3xl text-gray-100 py-4 px-6"><p>Enter a todo task</p></div>
+                : <div className="flex bg-gray-800 text-xl text-gray-100 py-4 px-6"><p>Enter a todo task</p></div>
               }
             </ul>
         </Container>
