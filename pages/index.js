@@ -1,11 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import {v4 as uuidv4} from 'uuid'
 import Container from '../components/Container';
 import Checkbox from '../components/Checkbox';
-import CrossIcon from  '../icons/cross'
+import CrossIcon from '../icons/cross';
+
 const Home = () => {
   const [userInput, setUserInput] = useState('');
   const [todoList, setTodoList] = useState([]);
-  // const [taskDone, setTaskDone] = useState(false);
+  const [taskDone, setTaskDone] = useState(false);
+
+  useEffect(() => {
+    const data = localStorage.getItem("my-todo-list");
+    if (data) {
+      setTodoList(JSON.parse(data))
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("my-todo-list", JSON.stringify(todoList))
+  });
 
   const handleUserInputChange = (event) => {
     event.preventDefault();
@@ -13,21 +26,39 @@ const Home = () => {
   }
   const todoHandler = (e) => {
     e.preventDefault();
-    setTodoList([userInput, ...todoList]);
-    setUserInput('');
+    if (userInput) {
+      setTodoList([
+        {
+          id: uuidv4(),
+          task: userInput,
+          done: false,
+        }, ...todoList]);
+      setUserInput('');
+    }
   }
-  const deleteTask = (todo) => {''
-    const updateTodoList = todoList.filter((todoItem) => todoList.indexOf(todoItem) !== todoList.indexOf(todo));
+  const deleteTask = (id) => {
+    const updateTodoList = todoList.filter((todoItem) => todoItem['id'] !== id);
     setTodoList(updateTodoList)
   }
   
-  // const handleTaskToggle = () => {
-  //   setTaskDone(!taskDone)
-  // }
-  // const listControl = taskDone ? 'done' : '';
+  const toggleCompleted = (id) => {
+    const _todoList = todoList.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          done: !item.done
+        };
+      }
+
+      return item;
+    }) 
+
+    setTodoList(_todoList)
+  }
+  const listControl = taskDone ? 'done' : '';
   return (
     <div className='flex flex-col font-body min-h-screen'>
-      <header className='bg-mobile-light dark:bg-mobile-dark sm:bg-desktop-light sm:dark:bg-desktop-dark bg-cover bg-center min-h-[200px] sm:min-h-[300px]'>
+      <header className='bg-mobile-light sm:bg-desktop-light bg-cover bg-center min-h-[200px] sm:min-h-[300px]'>
         <Container>
           <div className="flex justify-between">
             <h2 className="text-4xl font-bold pt-12 ">Todo List App</h2>
@@ -52,19 +83,24 @@ const Home = () => {
         <Container>
           <ul className="-mt-16 sm:-mt-28 rounded-t-md overflow-hidden">
               {
-              todoList.length >= 1 ? todoList.map((todo, idx) => {
+              todoList.length >= 1 ? todoList.map(({id, task, done}) => {
                 return (
-                  <li key={idx}>
-                    <div className="flex justify-between items-center space-x-3 bg-gray-800 dark:bg-gray-800 shadow-sm py-4 px-6 border-b dark:border-gray-700">
-                      <Checkbox />
-                      <p className='text-3xl'>{todo}</p>
+                  <li key={id}>
+                    <div className="flex justify-between items-center space-x-3 bg-gray-800 shadow-sm py-4 px-6 border-b">
+                      <input
+                        type="checkbox"
+                        className="p-2 rounded-full border-gray-200 bg-whitefocus:outline-none focus:ring-0"
+                        checked={done}
+                        onChange={() => toggleCompleted(id)}
+                      />
+                      <p className={`text-3xl ${done && "line-through text-gray-300"}`}>{task} - {id}</p>
                       <button
                         aria-label='Delete Todo'
                         className='focus:outline-none'
                         type='button'
                         onClick={(e) => {
                           e.preventDefault();
-                          deleteTask(todo)
+                          deleteTask(id)
                         }}
                       ><CrossIcon /></button>
                     </div>
